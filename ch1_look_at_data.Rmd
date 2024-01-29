@@ -1,0 +1,48 @@
+---
+title: "Data Visualization by Healy, Chapter 1"
+output:
+  pdf_document: default
+  html_document: default
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+---
+
+# Chapter 1 Notes
+
+## Chapter 1 consists of Healy's observations on what makes visuals good or bad. It is not about the production of visuals through ggplot2 (that begins at the end of chapter 2).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
