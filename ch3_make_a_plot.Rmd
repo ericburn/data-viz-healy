@@ -1,0 +1,188 @@
+---
+title: "Data Visualization by Healy, Chapter 3"
+output:
+  pdf_document: default
+  html_document: default
+date: "`r format(Sys.time(), '%B %d, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load Libraries
+
+```{r, message=FALSE}
+library(tidyverse)
+library(gapminder)
+library(here)
+```
+
+# Figure 3.4
+
+## Scatterplot of GDP per capita and Life Expectancy
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point()
+```
+
+## Plot with a smoothed line with confidence interval
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_smooth()
+```
+
+## Plot with a smoothed line and points
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point() + geom_smooth()
+```
+
+## Plot with a log scale on x-axis
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point() + scale_x_log10()
+```
+
+## Plot with a log scale on x-axis and change the x-axis labels
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x=gdpPercap, y = lifeExp))
+
+p + geom_point() + scale_x_log10(labels = scales::comma) + geom_smooth(method = "lm")
+```
+
+## Changing the color of the points to purple
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x=gdpPercap, y = lifeExp))
+
+p + geom_point(color = "purple") + scale_x_log10(labels = scales::comma) +
+  geom_smooth(method = "loess")
+```
+
+## Change transparency and add labels, titles, and a caption (reasonably polished plot)
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point(color = "orange", alpha=0.3) + 
+  scale_x_log10(labels = scales::comma) +
+  geom_smooth(method = "lm") + 
+  labs(x = "GDP per Capita", y = "Life Expectancy in Years", 
+       title = "Economic Growth and Life Expectancy",
+       subtitle = "Data points in country-years",
+       caption = "Source: Gapminder")
+```
+
+## Add a third variable to mapping and fill in standard error ribbon
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp, 
+                                            color = continent, fill = continent,)) 
+
+p + geom_point() + 
+  geom_smooth() + 
+  scale_x_log10()
+```
+
+## Use only one smoothing line but keep the color aesthetic
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point(mapping = aes(color = continent)) + 
+  geom_smooth() +
+  scale_x_log10()
+```
+
+## Save plot with labels, title, and caption using ggsave()
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point(color = "orange", alpha=0.3) + 
+  scale_x_log10(labels = scales::comma) +
+  geom_smooth(method = "lm") + 
+  labs(x = "GDP per Capita", y = "Life Expectancy in Years", 
+       title = "Economic Growth and Life Expectancy",
+       subtitle = "Data points in country-years",
+       caption = "Source: Gapminder")
+
+ggsave(here("figures", "gdp_vs_lifeExp.pdf"))
+```
+
+# Chapter 3 Exercises
+
+## 1) geom_smooth before geom_point
+
+### The line is hidden behind the points (i.e. the line is plotted first since geom_smooth() is written first and the points are plotted on top of the line since geom_point() is written second).
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_smooth() + geom_point()
+```
+
+# Chapter 3 Exercises
+
+## 2) Change GDP per Capita to population
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = pop, y = lifeExp))
+
+p + geom_point()
+```
+
+# Chapter 3 Exercises
+
+## 3) Alternative scale mappings
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point() + scale_x_sqrt()
+
+p + geom_point() + scale_x_reverse()
+
+p + geom_point() + scale_y_sqrt()
+
+p + geom_point() + scale_y_reverse()
+```
+
+# Chapter 3 Exercises
+
+## 4) Color to year instead of continent
+
+### We see gradations of the color blue.
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point(mapping = aes(color = year))
+```
+
+# Chapter 3 Exercises
+
+## 5) Instead of color = year, try color = factor(year)
+
+### This provides a legend showing different colors for each of the years when data was collected.
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = gdpPercap, y = lifeExp))
+
+p + geom_point(mapping = aes(color = factor(year)))
+```
+
+
+
+
+
