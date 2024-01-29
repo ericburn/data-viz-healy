@@ -1,0 +1,94 @@
+---
+title: "Data Visualization by Healy, Chapter 4"
+output: pdf
+date: "`r format(Sys.time(), '%B, %d, %Y')`"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Load libraries
+
+```{r, message=FALSE}
+library(ggplot2)
+library(gapminder)
+```
+
+# Figure 4.1
+
+## There is an error in the book. The text discusses the use of lifeExp as the outcome variable but the code (and figure 4.1) use gdpPercap. As a result, the figure produced from the code chunk below does not match Figure 4.1.
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = lifeExp))
+
+p + geom_line()
+```
+
+# Figure 4.1 follow up (subset data using only the United States and then create line graph with points).
+
+```{r}
+gapminder_data_us <- subset(gapminder, country=="United States")
+
+p <- ggplot(data = gapminder_data_us, mapping = aes(x = year, y = lifeExp))
+
+p + geom_line() + geom_point()
+```
+
+# Figure 4.2
+
+## Here we use the group aesthetic to let ggplot know that the years are grouped by country.
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = lifeExp))
+
+p + geom_line(aes(group=country))
+```
+
+# Figure 4.3
+
+## Faceting
+
+### Faceting allows us to make "small multiple" plots separated out by an additional variable. This allows to convey a lot information to be presented compactly. A separate panel is drawn for each value of the faceting variable. Facets are not geoms but are a way of organizing geoms.
+
+```{r}
+p <- ggplot(data = gapminder, mapping = aes(x = year, y = lifeExp))
+
+p + geom_line(aes(group = country)) + facet_wrap(~ continent)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
